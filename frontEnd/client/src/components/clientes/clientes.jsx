@@ -6,5 +6,5 @@ export const Clientes = () => {
       <Outlet />
       <h1>clientes</h1>
     </div>
-  );
+  ); 
 };

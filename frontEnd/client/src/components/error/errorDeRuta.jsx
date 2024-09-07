@@ -10,7 +10,7 @@ export default function ErrorPage() {
       <p>OPS, ERROR INESPERADO.</p>
       <p>
         <i>{error.statusText || error.message}</i>
-      </p>
+      </p> 
     </div>
   );
 }
