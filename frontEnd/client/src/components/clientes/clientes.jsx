@@ -1,10 +1,13 @@
-import { Outlet } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import Example from "./example";
 
-export const Clientes = () => {
-  return (
-    <div>
-      <Outlet />
-      <h1>clientes</h1>
-    </div>
-  );
-};
+const queryClient = new QueryClient();
+
+const Clientes = () => (
+  <QueryClientProvider client={queryClient}>
+    <Example />
+  </QueryClientProvider>
+);
+
+export default Clientes;
+
