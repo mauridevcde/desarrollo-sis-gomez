@@ -139,8 +139,7 @@ export const deleteCLientes = async (req, res) => {
       "SELECT * FROM db_clientes WHERE id_Clientes = ?",
       [id]
     );
-    console.log(rows);
-    res.json(rows[0]); //devuelve un json
+    res.status(200).json({ msg: "Cliente Eliminado con Exito" });
   } catch (error) {
     console.log(error);
     res.sendStatus(500).json({ msg: "Error en el servidor" });
