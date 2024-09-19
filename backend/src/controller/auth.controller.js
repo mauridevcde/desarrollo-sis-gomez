@@ -93,18 +93,7 @@ export const login = async (req, res) => {
     StockInsuficiente,
     id_permiso,
   } = user[0];
-  // res.json({
-  //   id,
-  //   Nombre,
-  //   Usuario: userResponse,
-  //   FechaNac,
-  //   Sexo,
-  //   Activo,
-  //   VenderHasta,
-  //   StockInsuficiente,
-  //   id_permiso,
-  // });
-  // console.log(decryptPass);
+
   const token = jwt.sign(
     {
       id,
@@ -123,5 +112,5 @@ export const login = async (req, res) => {
     }
   );
 
-  res.cookie("access_token", token, { maxAge: 1000 * 60 * 60 }).send({msg: 'ok'})
+  res.cookie("access_token", token, { maxAge: 1000 * 60 * 60 }).send({token: token})
 };
