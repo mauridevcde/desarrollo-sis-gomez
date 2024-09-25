@@ -1,0 +1,14 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "npm run dev backend/src/index.js & frontend/client/"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+  }
+}

@@ -1,10 +1,11 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import ClickOutside from '../ClickOutside';
-
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import ClickOutside from "../ClickOutside";
+import { useAuthStore } from "../../store/authStore";
 
 const DropdownUser = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const logOut = useAuthStore((state) => state.setLogout);
 
   return (
     <ClickOutside onClick={() => setDropdownOpen(false)} className="relative">
@@ -21,7 +22,7 @@ const DropdownUser = () => {
         </span>
 
         <span className="h-12 w-12 rounded-full">
-          <img src={'../../images/user/user-01.png'} alt="User" />
+          <img src={"../../images/user/user-01.png"} alt="User" />
         </span>
 
         <svg
@@ -119,7 +120,11 @@ const DropdownUser = () => {
               </Link>
             </li>
           </ul>
-          <button className="flex items-center gap-3.5 px-6 py-4 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base">
+          <button className="flex items-center gap-3.5 px-6 py-4 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base" onClick={()=>{
+            logOut()
+            window.location.reload();
+          
+          }}> 
             <svg
               className="fill-current"
               width="22"

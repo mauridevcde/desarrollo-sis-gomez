@@ -7,21 +7,44 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
+import { useState } from "react";
 
 import { useForm } from "react-hook-form";
+import { useAuthStore } from "../store/authStore";
+import { loginRequest } from "../api/auth/useAuth";
+import { useMutation } from "@tanstack/react-query";
 
 export const Login = () => {
+  const { register, handleSubmit } = useForm();
+
+  const setToken = useAuthStore((state) => state.setAuthInfo);
+  const setIsAuth = useAuthStore((state) => state.setIsAuth);
+
+  const [loginState, setLoginState] = useState(true);
+
+  const addLogin = useMutation({
+    mutationFn: loginRequest,
+    onSuccess: (data) => {
+      if (!data.data.msg) {
+        setToken(data.data);
+        setIsAuth(true);
+        window.location.reload();
+      } else {
+        setLoginState(false);
+        console.log("cambiar a falso");
+      }
+    },
+  });
+
+  const recibiendoDatosDelForm = (datos) => {
+    addLogin.mutate(datos);
+  };
+
   const paperStyle = {
-    height: "75vh",
+    height: "55vh",
     width: 450,
     boxShadow:
       "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;",
-  };
-
-  const { register, handleSubmit } = useForm();
-
-  const recibiendoDatosDelForm = (datos) => {
-    console.log(datos)
   };
 
   return (
@@ -58,8 +81,8 @@ export const Login = () => {
             <br />
 
             <Input
-              {...register("name")}
-              name="name"
+              {...register("Usuario")}
+              name="Usuario"
               type="text"
               placeholder="Ingrese su Usuario"
             />
@@ -77,7 +100,7 @@ export const Login = () => {
             />
             <br />
             <br />
-            <br />
+            <p>{loginState ? '' : 'Usuario o contraseña invalida.'}</p>
             <br />
             <Button type="submit" variant="contained">
               Ingresar

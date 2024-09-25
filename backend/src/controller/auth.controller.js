@@ -27,7 +27,6 @@ export const postregister = async (req, res) => {
     Activo,
     VenderHasta,
     StockInsuficiente,
-    id_permiso,
   } = req.body;
   const verify = await verifyUserExists(Usuario);
 
@@ -45,7 +44,7 @@ export const postregister = async (req, res) => {
     );
 
     const [rows] = await pool.query(
-      "INSERT INTO db_usuarios ( Nombre, Usuario, password,FechaNac,Sexo,Activo,VenderHasta,StockInsuficiente,id_permiso ) VALUES (?,?,?,?,?,?,?,?,?)",
+      "INSERT INTO db_usuarios ( Nombre, Usuario, password,FechaNac,Sexo,Activo,VenderHasta,StockInsuficiente ) VALUES (?,?,?,?,?,?,?,?)",
       [
         Nombre,
         Usuario,
@@ -55,7 +54,6 @@ export const postregister = async (req, res) => {
         Activo,
         VenderHasta,
         StockInsuficiente,
-        id_permiso,
       ]
     );
     res.json({ msg: "Usuario Registrado con exito" });
@@ -82,28 +80,11 @@ export const login = async (req, res) => {
 
   if (!decryptPass) return res.json({ msg: "usuario o contraseña incorrecta" });
 
-  const {
-    id,
-    Nombre,
-    Usuario: userResponse,
-    FechaNac,
-    Sexo,
-    Activo,
-    VenderHasta,
-    StockInsuficiente,
-    id_permiso,
-  } = user[0];
+  const { id, Nombre, id_permiso } = user[0];
 
   const token = jwt.sign(
     {
       id,
-      Nombre,
-      Usuario: userResponse,
-      FechaNac,
-      Sexo,
-      Activo,
-      VenderHasta,
-      StockInsuficiente,
       id_permiso,
     },
     process.env.SecretJWT,
@@ -112,5 +93,7 @@ export const login = async (req, res) => {
     }
   );
 
-  res.cookie("access_token", token, { maxAge: 1000 * 60 * 60 }).send({token: token})
+  res
+    .cookie("access_token", token, { maxAge: 1000 * 60 * 60 })
+    .send({ id, Nombre, id_permiso, token: token });
 };

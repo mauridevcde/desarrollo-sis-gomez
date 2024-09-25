@@ -19,27 +19,28 @@ import Loader from "./dashboard/Loader/loader";
 import DefaultLayout from "./dashboard/defaultLayout/DefaultLayout";
 import { Login } from "./auth/login";
 import Clientes from "./components/clientes/clientes";
+import { Proveedores } from "./components/proveedores/proveedores";
+import { useAuthStore } from "./store/authStore";
 
 function App() {
-
   ///USE STATE: ESTADO DEL COMPONENTE.
-  
+  const verifyToken = useAuthStore.getState().isAuth;
   const [loading, setLoading] = useState(true);
-
 
   const { pathname } = useLocation();
 
-  //USE EFFECT. 
+  //USE EFFECT.
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
-
 
   useEffect(() => {
     setTimeout(() => setLoading(false), 1000);
   }, []);
 
-  const login = true;
+  //mantener en un estado global
+
+  const login = verifyToken;
 
   return loading ? (
     <Loader />
@@ -67,11 +68,12 @@ function App() {
           }
         />
         <Route
-          path="/profile"
+          path="/proveedores"
           element={
             <>
               {/* <PageTitle title="Profile | TailAdmin - Tailwind CSS Admin Dashboard Template" />
             <Profile /> */}
+              <Proveedores />
             </>
           }
         />
