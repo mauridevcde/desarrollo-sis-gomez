@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ClickOutside from "../ClickOutside";
 import { useAuthStore } from "../../store/authStore";
 
 const DropdownUser = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const logOut = useAuthStore((state) => state.setLogout);
-
+  const navigate = useNavigate()
   return (
     <ClickOutside onClick={() => setDropdownOpen(false)} className="relative">
       <Link
@@ -125,7 +125,7 @@ const DropdownUser = () => {
             onClick={() => {
               logOut();
               localStorage.removeItem("auth");
-              window.location.reload();
+              navigate('/')
             }}
           >
             <svg
