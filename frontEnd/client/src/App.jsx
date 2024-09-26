@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 
 // import PageTitle from './components/PageTitle';
 // import SignIn from './pages/Authentication/SignIn';
@@ -21,7 +21,9 @@ import { Login } from "./auth/login";
 import Clientes from "./components/clientes/clientes";
 import { Proveedores } from "./components/proveedores/proveedores";
 import { useAuthStore } from "./store/authStore";
+import { Register } from "./auth/register";
 
+import "react-toastify/dist/ReactToastify.css";
 function App() {
   ///USE STATE: ESTADO DEL COMPONENTE.
   const verifyToken = useAuthStore.getState().isAuth;
@@ -45,7 +47,28 @@ function App() {
   return loading ? (
     <Loader />
   ) : !login ? (
-    <Login />
+    <Routes>
+      <Route
+        index
+        element={
+          <>
+            {/* <PageTitle title="eCommerce Dashboard | TailAdmin - Tailwind CSS Admin Dashboard Template" /> */}
+            <Login />
+          </>
+        }
+      />
+      <Route
+        path="/registro"
+        element={
+          <>
+            {/* <PageTitle title="Calendar | TailAdmin - Tailwind CSS Admin Dashboard Template" /> */}
+            <Register />
+          </>
+        }
+      />
+
+      <Route path="*" element={<Navigate replace to="/" />} />
+    </Routes>
   ) : (
     <DefaultLayout>
       <Routes>
