@@ -6,7 +6,10 @@ import { useAuthStore } from "../../store/authStore";
 const DropdownUser = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const logOut = useAuthStore((state) => state.setLogout);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const storeGlobal = useAuthStore.getState();
+  console.log(storeGlobal);
+
   return (
     <ClickOutside onClick={() => setDropdownOpen(false)} className="relative">
       <Link
@@ -16,13 +19,25 @@ const DropdownUser = () => {
       >
         <span className="hidden text-right lg:block">
           <span className="block text-sm font-medium text-black dark:text-white">
-            Thomas Anree
+            {storeGlobal.Nombre}
           </span>
-          <span className="block text-xs">UX Designer</span>
+          <span className="block text-xs">
+            {storeGlobal.id_permiso == 1 ? (
+              <p>Admin</p>
+            ) : storeGlobal.id_permiso == 2 ? (
+              <p>Vendedor</p>
+            ) : storeGlobal.id_permiso == 3 ? (
+              <p>Cajero</p>
+            ) : storeGlobal.id_permiso == 4 ? (
+              <p>Visitante</p>
+            ) : (
+              <></>
+            )}
+          </span>
         </span>
 
         <span className="h-12 w-12 rounded-full">
-          <img src={"../../images/user/user-01.png"} alt="User" />
+          <img src={"https://freesvg.org/img/abstract-user-flat-4.png"} width={'40px'} alt="User" />
         </span>
 
         <svg
@@ -125,7 +140,7 @@ const DropdownUser = () => {
             onClick={() => {
               logOut();
               localStorage.removeItem("auth");
-              navigate('/')
+              navigate("/");
             }}
           >
             <svg
@@ -145,7 +160,7 @@ const DropdownUser = () => {
                 fill=""
               />
             </svg>
-            Log Out
+            Cerrar Sesión
           </button>
         </div>
       )}
