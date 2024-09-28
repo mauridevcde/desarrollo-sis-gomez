@@ -12,7 +12,7 @@ export const VerifyAuthentication = (req, res, next) => {
 
   if (!token)
     return res.status(401).json({
-      mensaje: "Unauthorized token",
+      mensaje: "Not token",
     });
     
   jwt.verify(token, process.env.SecretJWT, (err, user) => {
